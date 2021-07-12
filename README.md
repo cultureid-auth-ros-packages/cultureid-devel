@@ -1,10 +1,6 @@
 A shell package to execute robot bringup, SLAM, localisation, and similar functionalities needed in project cultureid. This is the centralised locus of robot-centric packages and launchers.
 
-# Packages needed for the operation of ROBOTNIK RB1:
 
-```
-git clone git@github.com:robotics-4-all/cultureid-rb1-packages.git
-```
 # Packages needed for the operation of turtlebot:
 
 ```
@@ -46,8 +42,8 @@ roslaunch cultureid_devel avanti_simulation.launch task:=localisation
 roslaunch cultureid_devel avanti_simulation.launch task:={localisation|mapping} gazebo_world:=GW robot_type:=RT gazebo_gui:={true|false} num_cameras:=NC gp:=GP lp:=LP use_explorer:={true|false} do_viz:={true|false}
 ```
 - `GW` is the name of the gazebo_world in simulation. The world of the same name should already be in directory `worlds`
-- `RT={turtlebot|rb1}`
-- `NC={1|2|3}` for `robot_type = rb1` and `NC = 1` for `robot_type = turtlebot`
+- `RT=turtlebot`
+- `NC = 1` for `robot_type = turtlebot`
 - `GP={navfn|globalplanner|sbpl}`; defaults to `globalplanner`
 - `LP={dwa|eband|teb}`; defaults to `teb`
 
@@ -79,9 +75,9 @@ Provides wrapping launchers for loading maps and launching ROS SLAM packages `gm
 Provides wrapping launchers for launching `move_base` and teleoperation in a per-robot basis. Additionally, the `follow_waypoints.launch` launcher launches the ROS node that subscribes to incoming lists of targets for navigation and publishes them to `move_base`. Very handy for defining intermediate targets to a more distant target, or executing the same path over and over (can be set via a `.csv` file loaded at runtime).
 
 ### Directory `launchers/robot`
-Provides wrapping launchers for launching `gazebo`, `rb1` in simulation and in reality, and `turtlebot` in simulation and reality. Usually one would execute
+Provides wrapping launchers for launching `gazebo` and `turtlebot` in simulation and reality. Usually one would execute
 ```
-$ roslaunch cultureid_devel {rb1|turtlebot}_bringup_{live|simulation}.launch
+$ roslaunch cultureid_devel turtlebot_bringup_{live|simulation}.launch
 ```
 before launching `avanti_{live|simulation}.launch` in localisation or mapping mode.
 
@@ -114,21 +110,6 @@ Houses a custom message for quick inspection of orientation (quaternion-to-rpy)
 ---
 # Live the full cultureid experience
 
-## In robot `rb1`
-
-Using SSH, in separate terminals execute
-```
-$ roslaunch cultureid_devel rb1_bringup_live.launch
-$ roslaunch cultureid_devel avanti_live.launch task:={mapping|localisation} [slam_resolution:=0.XX]
-$ roslaunch cultureid_devel rb1_teleop.launch
-$ roslaunch cultureid_rfid_antennas_poses_logger avanti_log.launch
-$ roscd cultureid_rfid_detection/application; make clean && make x86 && bin/speedwayr_x86 192.168.0.190 001625127C5D
-$ roscd cultureid_rfid_detection/application; make clean && make x86 && bin/speedwayr_x86 192.168.0.192 001625127C5F
-$ roslaunch cultureid_rfid_detection localise_rfid_tags.launch
-
-```
-locally run `export ROS_MASTER_URI=http://192.168.0.106:11311` to bringup rVIZ to your own computer
-
 ## In robot `turtlebot`
 
 Using SSH, in separate terminals execute
@@ -137,9 +118,9 @@ $ roslaunch cultureid_devel turtlebot_bringup_live.launch
 $ roslaunch cultureid_devel avanti_live.launch task:={mapping|localisation} [slam_resolution:=0.XX]
 $ roslaunch cultureid_devel turtlebot_teleop.launch
 $ roslaunch cultureid_rfid_antennas_poses_logger avanti_log.launch
-$ roscd cultureid_rfid_detection/application; make clean && make x86 && bin/speedwayr_x86 192.168.2.10 001625127C5A
+$ roscd cultureid_rfid_detection/application; make clean && make x86 && bin/speedwayr_x86 192.168.20.100 001625143965
 $ roslaunch cultureid_rfid_detection localise_rfid_tags.launch
 
 ```
 
-locally run `export ROS_MASTER_URI=http://192.168.16.196:11311` to bringup rVIZ to your own computer
+locally run `export ROS_MASTER_URI=http://192.168.16.110:11311` to bringup rVIZ to your own computer
