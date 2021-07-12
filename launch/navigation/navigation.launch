@@ -204,6 +204,6 @@
   </node>
 
   <!-- Waypoint follower -->
-  <include file="$(find cultureid_devel)/launch/navigation/follow_waypoints.launch"/>
+  <!--include file="$(find cultureid_devel)/launch/navigation/follow_waypoints.launch"/-->
 
 </launch>
