@@ -3,14 +3,11 @@
   <arg name="resolution" />
   <arg name="robot_type" />
 
-  <arg name="scan_topic"  value="front_laser/scan"  if="$(eval robot_type == 'rb1')"/>
-  <arg name="range_max"   value="30.0"              if="$(eval robot_type == 'rb1')"/>
-
   <arg name="scan_topic"  value="scan"              if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="range_max"   value="20.0"              if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="range_max"   value="30.0"              if="$(eval robot_type == 'turtlebot')"/>
 
   <!-- slam_karto reference: https://github.com/WENJIAN0629/slam_karto-->
-  <node pkg="slam_karto" type="slam_karto" name="slam_karto">
+  <node pkg="slam_karto" type="slam_karto" name="slam_karto" output="screen">
     <remap from="scan"                                      to="$(arg scan_topic)" />
     <param name="odom_frame"                                value="odom" />
     <param name="map_frame"                                 value="map" />

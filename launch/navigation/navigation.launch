@@ -6,6 +6,7 @@
   <arg name="lp" />
   <arg name="task" />
   <arg name="resolution" />
+  <arg name="map_name" />
 
   <!-- ##################################################################### -->
   <!-- turtlebot specific -->
@@ -16,29 +17,30 @@
   <arg name="scan_topic"                      value="scan"                                        if="$(eval robot_type == 'turtlebot')"/>
   <arg name="laser_frame"                     value="base_laser_link"                             if="$(eval robot_type == 'turtlebot')"/>
   <arg name="laser_range"                     value="30.0"                                        if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="cmd_vel_topic"                   value="navigation_velocity_smoother/raw_cmd_vel"    if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="cmd_vel_topic"                   value="cmd_vel_mux/input/navi_raw"                  if="$(eval robot_type == 'turtlebot')"/>
 
   <!-- local costmap specific params for turtlebot -->
   <arg name="local_costmap_update_frequency"  value="10.0"                                        if="$(eval robot_type == 'turtlebot')"/>
   <arg name="local_costmap_publish_frequency" value="10.0"                                        if="$(eval robot_type == 'turtlebot')"/>
 
   <!-- front_rgbd_camera_depth_optical_frame->base_link->base_footprint -->
-  <arg name="obstacle_front_rgbd_camera_z"      value="0.3148"                                     if="$(eval arg('robot_type') == 'turtlebot')"/>
+  <arg name="obstacle_front_rgbd_camera_z"      value="0.8808"                                     if="$(eval arg('robot_type') == 'turtlebot')"/>
   <arg name="obstacle_front_rgbd_camera_topic"  value="/front_rgbd_camera/depth/points"            if="$(eval arg('robot_type') == 'turtlebot')"/>
   <arg name="obstacle_front_rgbd_camera_frame"  value="/front_rgbd_camera_depth_optical_frame"     if="$(eval arg('robot_type') == 'turtlebot')"/>
 
-  <include file="$(find cultureid_turtlebot_navigation)/launch/includes/velocity_smoother.launch.xml" if="$(eval robot_type == 'turtlebot')"/>
+  <include file="$(find cultureid_yocs_velocity_smoother)/launch/velocity_smoother.launch"         if="$(eval robot_type == 'turtlebot')"/>
+  <!--include file="$(find cultureid_turtlebot_navigation)/launch/includes/velocity_smoother.launch.xml" if="$(eval robot_type == 'turtlebot')"/-->
   <include file="$(find cultureid_turtlebot_navigation)/launch/includes/safety_controller.launch.xml" if="$(eval robot_type == 'turtlebot')"/>
 
   <!-- move_base specific params for turtlebot -->
-  <arg name="move_base_controller_frequency"     value="5.0"                                      if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="move_base_controller_patience"      value="0.1"                                      if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="move_base_planner_frequency"        value="1.0"                                      if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="move_base_planner_patience"         value="0.1"                                      if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="move_base_oscillation_timeout"      value="5.0"                                      if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="move_base_controller_frequency"     value="15.0"                                      if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="move_base_controller_patience"      value="110.1"                                     if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="move_base_planner_frequency"        value="11.0"                                      if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="move_base_planner_patience"         value="10.1"                                      if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="move_base_oscillation_timeout"      value="15.0"                                      if="$(eval robot_type == 'turtlebot')"/>
 
   <!-- teb local planner specific params for turtlebot -->
-  <arg name="teb_dt_hysteresis"                  value="0.02"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
+  <arg name="teb_dt_hysteresis"                  value="0.00"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
   <arg name="teb_max_vel_theta"                  value="1.50"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
   <arg name="teb_acc_lim_x"                      value="2.50"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
   <arg name="teb_acc_lim_theta"                  value="2.50"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
@@ -146,8 +148,8 @@
     <param name="global_costmap/front_vertical_obstacle_layer/front_rgbd_camera/max_obstacle_height"    value="$(arg robot_height)" />
     -->
 
-    <!--param name="global_costmap/front_rgbd_obstacle_layer/origin_z"                                  value="$(arg obstacle_front_rgbd_camera_z)" /-->
-    <param name="global_costmap/front_rgbd_obstacle_layer/origin_z"                                     value="0.0" />
+    <param name="global_costmap/front_rgbd_obstacle_layer/origin_z"                                     value="$(arg obstacle_front_rgbd_camera_z)" />
+    <!--param name="global_costmap/front_rgbd_obstacle_layer/origin_z"                                     value="0.0" /-->
     <param name="global_costmap/front_rgbd_obstacle_layer/front_rgbd_mark/topic"                        value="$(arg obstacle_front_rgbd_camera_topic)" />
     <param name="global_costmap/front_rgbd_obstacle_layer/front_rgbd_mark/sensor_frame"                 value="$(arg obstacle_front_rgbd_camera_frame)" />
     <param name="global_costmap/front_rgbd_obstacle_layer/front_rgbd_clear/topic"                       value="$(arg obstacle_front_rgbd_camera_topic)" />
@@ -174,12 +176,12 @@
     <param name="local_costmap/front_vertical_obstacle_layer/front_rgbd_camera/max_obstacle_height"     value="$(arg robot_height)" />
     -->
 
-    <!--param name="local_costmap/front_rgbd_obstacle_layer/origin_z"                                   value="$(arg obstacle_front_rgbd_camera_z)" /-->
-    <param name="local_costmap/front_rgbd_obstacle_layer/origin_z"                                      value="0.0" />
+    <param name="local_costmap/front_rgbd_obstacle_layer/origin_z"                                      value="$(arg obstacle_front_rgbd_camera_z)" />
+    <!--param name="local_costmap/front_rgbd_obstacle_layer/origin_z"                                      value="0.0" /-->
     <param name="local_costmap/front_rgbd_obstacle_layer/front_rgbd_mark/topic"                         value="$(arg obstacle_front_rgbd_camera_topic)" />
     <param name="local_costmap/front_rgbd_obstacle_layer/front_rgbd_mark/sensor_frame"                  value="$(arg obstacle_front_rgbd_camera_frame)" />
     <param name="local_costmap/front_rgbd_obstacle_layer/front_rgbd_clear/topic"                        value="$(arg obstacle_front_rgbd_camera_topic)" />
-    <param name="local_costmap/front_rgbd_obstacle_layer/front_rgbd_clear/sensor_frame"                  value="$(arg obstacle_front_rgbd_camera_frame)" />
+    <param name="local_costmap/front_rgbd_obstacle_layer/front_rgbd_clear/sensor_frame"                 value="$(arg obstacle_front_rgbd_camera_frame)" />
     <param name="local_costmap/front_rgbd_obstacle_layer/front_rgbd_mark/max_obstacle_height"           value="$(arg robot_height)" />
 
     <param name="local_costmap/update_frequency"                                                        value="$(arg local_costmap_update_frequency)" />
@@ -203,7 +205,10 @@
     <remap from="scan"    to="$(arg scan_topic)"/>
   </node>
 
-  <!-- Waypoint follower -->
-  <!--include file="$(find cultureid_devel)/launch/navigation/follow_waypoints.launch"/-->
+  <!-- Waypoint follower
+  <include file="$(find cultureid_devel)/launch/navigation/follow_waypoints.launch">
+    <arg name="map_name"  value="$(arg map_name)" />
+  </include>
+  -->
 
 </launch>

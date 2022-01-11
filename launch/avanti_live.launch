@@ -35,9 +35,13 @@
 
   <!-- If performing localisation (and therefore the map is known apriori),
        set the map file name and its (given) resolution -->
-  <arg name="map_file"                default="csal_rtabmap_exp_1" />
+  <arg name="map_file"                default="csal_karto" />
+  <arg name="map_resolution"          default="0.05"      if="$(eval map_file == 'csal_atrium_041021')" />
+  <arg name="map_resolution"          default="0.05"      if="$(eval map_file == 'csal_fmt')" />
+  <arg name="map_resolution"          default="0.02"      if="$(eval map_file == 'csal_karto')" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'csal_karto3')" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'csal_rtabmap_exp_1')" />
+  <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'csal_rtabmap_exp_1_plus_unknown')" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'csal_rtabmap_exp_f2f')" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'csal_10072020')" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'csal_24072020')" />
@@ -51,10 +55,26 @@
   <arg name="resolution"                value="$(arg map_resolution)"  if="$(eval task == 'localisation')" />
   <arg name="resolution"                value="$(arg slam_resolution)" if="$(eval task == 'mapping')" />
 
+  <arg name="estimate_initial_pose_x"   value="26.600000" if="$(eval map_file == 'csal_atrium_041021')"/>
+  <arg name="estimate_initial_pose_y"   value="15.400000" if="$(eval map_file == 'csal_atrium_041021')"/>
+  <arg name="estimate_initial_pose_yaw" value="0.0"       if="$(eval map_file == 'csal_atrium_041021')"/>
+
+  <arg name="estimate_initial_pose_x"   value="15.4" 	    if="$(eval map_file == 'csal_fmt')"/>
+  <arg name="estimate_initial_pose_y"   value="15.4"  	  if="$(eval map_file == 'csal_fmt')"/>
+  <arg name="estimate_initial_pose_yaw" value="0.0"       if="$(eval map_file == 'csal_fmt')"/>
+
   <arg name="estimate_initial_pose_x"   value="18.7" 	    if="$(eval map_file == 'csal_karto3')"/>
   <arg name="estimate_initial_pose_y"   value="11.35"  	  if="$(eval map_file == 'csal_karto3')"/>
   <arg name="estimate_initial_pose_yaw" value="0.111"     if="$(eval map_file == 'csal_karto3')"/>
 
+  <arg name="estimate_initial_pose_x"   value="18.7" 	    if="$(eval map_file == 'csal_karto')"/>
+  <arg name="estimate_initial_pose_y"   value="11.35"  	  if="$(eval map_file == 'csal_karto')"/>
+  <arg name="estimate_initial_pose_yaw" value="0.111"     if="$(eval map_file == 'csal_karto')"/>
+
+
+  <arg name="estimate_initial_pose_x"   value="1.737893" 	if="$(eval map_file == 'csal_rtabmap_exp_1_plus_unknown')"/>
+  <arg name="estimate_initial_pose_y"   value="5.522632"  if="$(eval map_file == 'csal_rtabmap_exp_1_plus_unknown')"/>
+  <arg name="estimate_initial_pose_yaw" value="0.0"       if="$(eval map_file == 'csal_rtabmap_exp_1_plus_unknown')"/>
 
   <arg name="estimate_initial_pose_x"   value="1.737893" 	if="$(eval map_file == 'csal_rtabmap_exp_1')"/>
   <arg name="estimate_initial_pose_y"   value="5.522632"  if="$(eval map_file == 'csal_rtabmap_exp_1')"/>
@@ -131,6 +151,10 @@
   </node>
   -->
 
+  <!-- Makes rays that are obstructed by the robot's chassis (poles) invalid; takes input: /base_scan; output: /scan -->
+  <include file="$(find cultureid_interpolate_poles_rays)/launch/avanti_interpolate.launch" />
+
+
   <!-- ********************************************************************* -->
   <!-- Launch either localisation or mapping -->
   <include file="$(find cultureid_devel)/launch/$(arg task)/$(arg task).launch">
@@ -156,6 +180,7 @@
     <arg name="lp"                    value="$(arg lp)"/>
     <arg name="task"                  value="$(arg task)"/>
     <arg name="resolution"            value="$(arg resolution)" />
+    <arg name="map_name"              value="$(arg map_file)" />
   </include>
 
   <!-- ********************************************************************* -->

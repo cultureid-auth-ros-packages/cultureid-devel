@@ -65,7 +65,7 @@ obstacle_layer:
 
 # https://github.com/SteveMacenski/spatio_temporal_voxel_layer
 front_rgbd_obstacle_layer:
-  enabled:               true
+  enabled:               false
   voxel_decay:           0      #seconds if linear, e^n if exponential
   decay_model:           -1      #0=linear, 1=exponential, -1=persistent # VERY IMPORTANT: -1
   voxel_size:            0.05   #meters
@@ -102,7 +102,7 @@ front_rgbd_obstacle_layer:
     # https://github.com/neomanic/spatio_temporal_voxel_layer/commit/594a6e89a1c801496fafe0feb1719055b1bf7ee3
     voxel_min_points: 100
   front_rgbd_clear:
-    enabled: true                #default true, can be toggled on/off with associated service call
+    enabled: false #default true, can be toggled on/off with associated service call
     data_type: PointCloud2
     #topic: front_rgbd_camera/depth/points
     #sensor_frame: front_rgbd_camera_depth_optical_frame

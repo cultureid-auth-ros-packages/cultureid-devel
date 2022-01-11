@@ -100,7 +100,7 @@ TebLocalPlannerROS:
 # Use the following instruction to modify the maximum translational velocity
 # to 0.1 m/s
 # rosrun dynamic_reconfigure dynparam set "/move_base/TebLocalPlannerROS" max_vel_x 0.1
-  max_vel_x: 0.10
+  max_vel_x: 0.2
 
 # Maximum translational velocity of the robot for driving backwards
 # Should be greater than penalty_epsilon
@@ -213,7 +213,7 @@ TebLocalPlannerROS:
 # The obstacle position is attached to the closest pose on the trajectory to
 # reduce computational effort, but take a number of neighbors into account
 # as well
-  obstacle_poses_affected: 30
+  obstacle_poses_affected: 2
 
 #
   costmap_converter_plugin: ""
@@ -228,11 +228,11 @@ TebLocalPlannerROS:
 ## Optimization ################################################################
 
 # Number of solver iterations called in each outerloop iteration
-  no_inner_iterations: 5
+  no_outer_iterations: 10
 
 # Each outerloop iteration automatically resizes the trajectory and invokes
 # the internal optimizer with no_inner_iterations
-  no_outer_iterations: 4
+  no_inner_iterations: 1
 
 # Activate the optimization
   optimization_activate: True
@@ -277,7 +277,7 @@ TebLocalPlannerROS:
   weight_kinematics_turning_radius: 1
 
 # Optimization weight for contracting the trajectory w.r.t transition time
-  weight_optimaltime: 0.001
+  weight_optimaltime: 0.1
 
 # Optimization weight for satisfying a minimum seperation from obstacles
   weight_obstacle: 50
@@ -305,7 +305,7 @@ TebLocalPlannerROS:
 ## Homotopy Class Planner ######################################################
 
 # Activate multiple threading for planning multiple trajectories in parallel
-  enable_multithreading: True
+  enable_multithreading: False
 
 # Specify the maximum number of allowed alternative homotopy classes
 # (limits computational effort)
@@ -388,4 +388,4 @@ TebLocalPlannerROS:
 
 # Try to detect and resolve oscillations between multiple solutions in the same
 # equivalence class (robot frequently switches between left/right/forward/backwards).
-  oscillation_recovery: False
+  oscillation_recovery: True
