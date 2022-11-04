@@ -40,7 +40,7 @@
 
   <!-- If performing localisation (and therefore the map is known apriori),
        set the map file name and its (given) resolution -->
-  <arg name="map_file"                default="amth_offices_wunknown" />
+  <arg name="map_file"                default="amth_games" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'amth_offices_wunknown')" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'amth_games')" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'amth')" />
@@ -67,9 +67,6 @@
   <arg name="resolution"                value="$(arg slam_resolution)" if="$(eval task == 'mapping')" />
 
 
-  <arg name="estimate_initial_pose_x"   value="11.687977"     if="$(eval map_file == 'amth_offices_wunknown')"/>
-  <arg name="estimate_initial_pose_y"   value="14.037730"     if="$(eval map_file == 'amth_offices_wunknown')"/>
-  <arg name="estimate_initial_pose_yaw" value="0.0"           if="$(eval map_file == 'amth_offices_wunknown')"/>
 
   <arg name="estimate_initial_pose_x"   value="7.69202230153"     if="$(eval map_file == 'amth_games')"/>
   <arg name="estimate_initial_pose_y"   value="43.2809560318"     if="$(eval map_file == 'amth_games')"/>
@@ -78,6 +75,10 @@
   <arg name="estimate_initial_pose_x"   value="7.99444925904"     if="$(eval map_file == 'amth')"/>
   <arg name="estimate_initial_pose_y"   value="46.2085012715"     if="$(eval map_file == 'amth')"/>
   <arg name="estimate_initial_pose_yaw" value="-0.170"            if="$(eval map_file == 'amth')"/>
+
+  <arg name="estimate_initial_pose_x"   value="11.687977"     if="$(eval map_file == 'amth_offices_wunknown')"/>
+  <arg name="estimate_initial_pose_y"   value="14.037730"     if="$(eval map_file == 'amth_offices_wunknown')"/>
+  <arg name="estimate_initial_pose_yaw" value="0.0"           if="$(eval map_file == 'amth_offices_wunknown')"/>
 
   <arg name="estimate_initial_pose_x"   value="7.25641754556" if="$(eval map_file == 'tif22')"/>
   <arg name="estimate_initial_pose_y"   value="12.390710041"  if="$(eval map_file == 'tif22')"/>
