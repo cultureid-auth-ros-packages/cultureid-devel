@@ -1,0 +1,8 @@
+image: csal_pgl_0.01.pgm
+resolution: 0.010000
+origin: [0,0,0]
+#origin: [-5.308998, -8.678775, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+

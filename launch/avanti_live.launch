@@ -33,9 +33,18 @@
   <!-- Avalailable values for use_viz {true|false} -->
   <arg name="do_viz"                  default="false" />
 
+  <!-- Come from cultureid_global_localisation (higher-up) -->
+  <arg name="num_hypotheses"            default="400"/>
+  <arg name="do_global_localisation"    default="false"/>
+
+
   <!-- If performing localisation (and therefore the map is known apriori),
        set the map file name and its (given) resolution -->
-  <arg name="map_file"                default="csal_karto" />
+  <arg name="map_file"                default="amth_offices_wunknown" />
+  <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'amth_offices_wunknown')" />
+  <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'amth_games')" />
+  <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'amth')" />
+  <arg name="map_resolution"          default="0.02"      if="$(eval map_file == 'tif22')" />
   <arg name="map_resolution"          default="0.05"      if="$(eval map_file == 'csal_atrium_041021')" />
   <arg name="map_resolution"          default="0.05"      if="$(eval map_file == 'csal_fmt')" />
   <arg name="map_resolution"          default="0.02"      if="$(eval map_file == 'csal_karto')" />
@@ -50,10 +59,37 @@
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'temp_thmmy_lib4')" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'temp_thmmy_lib5')" />
   <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'thmmy_lib_rb1')" />
+  <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'csal_pgl')" />
+  <arg name="map_resolution"          default="0.01"      if="$(eval map_file == 'vergina')" />
 
   <!-- Abstract the map's resolution for independence from task -->
   <arg name="resolution"                value="$(arg map_resolution)"  if="$(eval task == 'localisation')" />
   <arg name="resolution"                value="$(arg slam_resolution)" if="$(eval task == 'mapping')" />
+
+
+  <arg name="estimate_initial_pose_x"   value="11.687977"     if="$(eval map_file == 'amth_offices_wunknown')"/>
+  <arg name="estimate_initial_pose_y"   value="14.037730"     if="$(eval map_file == 'amth_offices_wunknown')"/>
+  <arg name="estimate_initial_pose_yaw" value="0.0"           if="$(eval map_file == 'amth_offices_wunknown')"/>
+
+  <arg name="estimate_initial_pose_x"   value="7.69202230153"     if="$(eval map_file == 'amth_games')"/>
+  <arg name="estimate_initial_pose_y"   value="43.2809560318"     if="$(eval map_file == 'amth_games')"/>
+  <arg name="estimate_initial_pose_yaw" value="-0.1930951"        if="$(eval map_file == 'amth_games')"/>
+
+  <arg name="estimate_initial_pose_x"   value="7.99444925904"     if="$(eval map_file == 'amth')"/>
+  <arg name="estimate_initial_pose_y"   value="46.2085012715"     if="$(eval map_file == 'amth')"/>
+  <arg name="estimate_initial_pose_yaw" value="-0.170"            if="$(eval map_file == 'amth')"/>
+
+  <arg name="estimate_initial_pose_x"   value="7.25641754556" if="$(eval map_file == 'tif22')"/>
+  <arg name="estimate_initial_pose_y"   value="12.390710041"  if="$(eval map_file == 'tif22')"/>
+  <arg name="estimate_initial_pose_yaw" value="0.038"         if="$(eval map_file == 'tif22')"/>
+
+  <arg name="estimate_initial_pose_x"   value="12.950131" if="$(eval map_file == 'vergina')"/>
+  <arg name="estimate_initial_pose_y"   value="7.321933"  if="$(eval map_file == 'vergina')"/>
+  <arg name="estimate_initial_pose_yaw" value="0.0"       if="$(eval map_file == 'vergina')"/>
+
+  <arg name="estimate_initial_pose_x"   value="5.308998" if="$(eval map_file == 'csal_pgl')"/>
+  <arg name="estimate_initial_pose_y"   value="8.678775" if="$(eval map_file == 'csal_pgl')"/>
+  <arg name="estimate_initial_pose_yaw" value="0.0"      if="$(eval map_file == 'csal_pgl')"/>
 
   <arg name="estimate_initial_pose_x"   value="26.600000" if="$(eval map_file == 'csal_atrium_041021')"/>
   <arg name="estimate_initial_pose_y"   value="15.400000" if="$(eval map_file == 'csal_atrium_041021')"/>
@@ -67,9 +103,10 @@
   <arg name="estimate_initial_pose_y"   value="11.35"  	  if="$(eval map_file == 'csal_karto3')"/>
   <arg name="estimate_initial_pose_yaw" value="0.111"     if="$(eval map_file == 'csal_karto3')"/>
 
-  <arg name="estimate_initial_pose_x"   value="18.7" 	    if="$(eval map_file == 'csal_karto')"/>
-  <arg name="estimate_initial_pose_y"   value="11.35"  	  if="$(eval map_file == 'csal_karto')"/>
-  <arg name="estimate_initial_pose_yaw" value="0.111"     if="$(eval map_file == 'csal_karto')"/>
+
+  <arg name="estimate_initial_pose_x"   value="11.6328312155" if="$(eval map_file == 'csal_karto')"/>
+  <arg name="estimate_initial_pose_y"   value="5.9005574694"  if="$(eval map_file == 'csal_karto')"/>
+  <arg name="estimate_initial_pose_yaw" value="2.8253"        if="$(eval map_file == 'csal_karto')"/>
 
 
   <arg name="estimate_initial_pose_x"   value="1.737893" 	if="$(eval map_file == 'csal_rtabmap_exp_1_plus_unknown')"/>
@@ -158,17 +195,24 @@
   <!-- ********************************************************************* -->
   <!-- Launch either localisation or mapping -->
   <include file="$(find cultureid_devel)/launch/$(arg task)/$(arg task).launch">
-    <arg name="robot_type"            value="$(arg robot_type)"/>
-    <arg name="resolution"            value="$(arg resolution)" />
+    <arg name="robot_type"              value="$(arg robot_type)"/>
+    <arg name="resolution"              value="$(arg resolution)" />
 
-    <arg name="slam_alg"              value="$(arg slam_alg)"                   if="$(eval task == 'mapping')" />
-    <arg name="num_cameras"           value="$(arg num_cameras)"                if="$(eval task == 'mapping' and arg('slam_alg') == 'rtabmap')" />
+    <arg name="slam_alg"                value="$(arg slam_alg)"                   if="$(eval task == 'mapping')" />
+    <arg name="num_cameras"             value="$(arg num_cameras)"                if="$(eval task == 'mapping' and arg('slam_alg') == 'rtabmap')" />
 
-    <arg name="map_file"              value="$(arg map_file)"                   if="$(eval task == 'localisation')" />
+    <arg name="map_file"                value="$(arg map_file)"                   if="$(eval task == 'localisation')" />
 
-    <arg name="initial_pose_x"        value="$(arg estimate_initial_pose_x)"    if="$(eval task == 'localisation')" />
-    <arg name="initial_pose_y"        value="$(arg estimate_initial_pose_y)"    if="$(eval task == 'localisation')" />
-    <arg name="initial_pose_yaw"      value="$(arg estimate_initial_pose_yaw)"  if="$(eval task == 'localisation')" />
+    <arg name="initial_pose_x"          value="$(arg estimate_initial_pose_x)"    if="$(eval task == 'localisation')" />
+    <arg name="initial_pose_y"          value="$(arg estimate_initial_pose_y)"    if="$(eval task == 'localisation')" />
+    <arg name="initial_pose_yaw"        value="$(arg estimate_initial_pose_yaw)"  if="$(eval task == 'localisation')" />
+
+
+    <!-- Flag to indicate that amcl is executed for global localisation (we need to modify its max_particles value) -->
+    <arg name="do_global_localisation"  value="$(arg do_global_localisation)"     if="$(eval task == 'localisation')"/>
+
+    <!-- The number of hypotheses to disperse during global localisation -->
+    <arg name="num_hypotheses"          value="$(arg num_hypotheses)"             if="$(eval task == 'localisation')"/>
   </include>
 
   <!-- ********************************************************************* -->

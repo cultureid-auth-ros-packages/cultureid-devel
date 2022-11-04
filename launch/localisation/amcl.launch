@@ -15,20 +15,36 @@
 
 
   <arg name="scan_topic"  value="scan"              if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="num_beams"   value="1081"              if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="range_max"   value="20.0"              if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="num_beams"   value="2019"              if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="range_max"   value="30.0"              if="$(eval robot_type == 'turtlebot')"/>
   <arg name="range_min"   value="0.06"              if="$(eval robot_type == 'turtlebot')"/>
+
+  <!-- "Light" turtlebot, up to 11.3-7 kg
   <arg name="odom_alpha1" value="0.005"             if="$(eval robot_type == 'turtlebot')"/>
   <arg name="odom_alpha2" value="0.005"             if="$(eval robot_type == 'turtlebot')"/>
   <arg name="odom_alpha3" value="0.01"              if="$(eval robot_type == 'turtlebot')"/>
   <arg name="odom_alpha4" value="0.005"             if="$(eval robot_type == 'turtlebot')"/>
   <arg name="odom_alpha5" value="0.1"               if="$(eval robot_type == 'turtlebot')"/>
+  -->
+
+  <!-- For heavy-turtlebot tests; 12.5 kg -->
+  <!-- https://answers.ros.org/question/299606/amcl-converges-to-wrong-pose-and-is-unable-to-recover/ -->
+  <arg name="odom_alpha1" value="0.05"             if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="odom_alpha2" value="0.05"             if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="odom_alpha3" value="0.1"              if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="odom_alpha4" value="0.05"             if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="odom_alpha5" value="0.1"              if="$(eval robot_type == 'turtlebot')"/>
 
 
   <!-- initial pose is sent from higher-level launcher -->
   <arg name="initial_pose_x" />
   <arg name="initial_pose_y" />
   <arg name="initial_pose_yaw" />
+
+  <!-- These two for global localisation only -->
+  <arg name="do_global_localisation" />
+  <arg name="num_hypotheses" />
+
 
   <node pkg="relief_amcl_mod" type="relief_amcl_mod_node" name="relief_amcl_mod" output="screen">
 
@@ -50,6 +66,8 @@
     <param name="odom_alpha3"               value="$(arg odom_alpha3)"/>
     <param name="odom_alpha4"               value="$(arg odom_alpha4)"/>
     <param name="odom_alpha5"               value="$(arg odom_alpha5)"/>
+
+    <param name="max_particles"             value="$(arg num_hypotheses)" if="$(arg do_global_localisation)" />
 
   </node>
 

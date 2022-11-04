@@ -17,6 +17,10 @@
   <arg name="initial_pose_y" />
   <arg name="initial_pose_yaw" />
 
+  <!-- These two for global localisation only -->
+  <arg name="do_global_localisation" />
+  <arg name="num_hypotheses" />
+
   <!-- Launch amcl for localisation -->
   <include file="$(find cultureid_devel)/launch/localisation/amcl.launch">
     <!-- Map-specific. Check the specific .yaml file for correct origin
@@ -28,11 +32,16 @@
          Then, fix the yaml's origin at (0,0,0).
     -->
 
-    <arg name="robot_type"        value="$(arg robot_type)" />
+    <arg name="robot_type"              value="$(arg robot_type)" />
 
-    <arg name="initial_pose_x"    value="$(arg initial_pose_x)" />
-    <arg name="initial_pose_y"    value="$(arg initial_pose_y)" />
-    <arg name="initial_pose_yaw"  value="$(arg initial_pose_yaw)" />
+    <arg name="initial_pose_x"          value="$(arg initial_pose_x)" />
+    <arg name="initial_pose_y"          value="$(arg initial_pose_y)" />
+    <arg name="initial_pose_yaw"        value="$(arg initial_pose_yaw)" />
+
+    <arg name="do_global_localisation"  value="$(arg do_global_localisation)" />
+    <arg name="num_hypotheses"          value="$(arg num_hypotheses)" />
+
+
   </include>
 
 </launch>
