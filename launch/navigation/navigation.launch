@@ -1,6 +1,5 @@
 <launch>
 
-  <arg name="robot_type" />
   <arg name="num_cameras" />
   <arg name="gp" />
   <arg name="lp" />
@@ -11,79 +10,40 @@
   <!-- ##################################################################### -->
   <!-- turtlebot specific -->
   <!-- ##################################################################### -->
-  <arg name="robot_radius"                    value="0.175"                                       if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="robot_height"                    value="1.80"                                        if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="odom_topic"                      value="odom"                                        if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="scan_topic"                      value="scan"                                        if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="laser_frame"                     value="base_laser_link"                             if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="laser_range"                     value="30.0"                                        if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="cmd_vel_topic"                   value="cmd_vel_mux/input/navi_raw"                  if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="robot_radius"                       value="0.175" />
+  <arg name="robot_height"                       value="1.20"  />
+  <arg name="odom_topic"                         value="odom"  />
+  <arg name="scan_topic"                         value="scan"  />
+  <arg name="laser_frame"                        value="base_laser_link" />
+  <arg name="laser_range"                        value="30.0" />
+  <arg name="cmd_vel_topic"                      value="cmd_vel_mux/input/navi_raw" />
 
   <!-- local costmap specific params for turtlebot -->
-  <arg name="local_costmap_update_frequency"  value="10.0"                                        if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="local_costmap_publish_frequency" value="10.0"                                        if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="local_costmap_update_frequency"     value="10.0" />
+  <arg name="local_costmap_publish_frequency"    value="10.0" />
 
   <!-- front_rgbd_camera_depth_optical_frame->base_link->base_footprint -->
-  <arg name="obstacle_front_rgbd_camera_z"      value="0.8808"                                     if="$(eval arg('robot_type') == 'turtlebot')"/>
-  <arg name="obstacle_front_rgbd_camera_topic"  value="/front_rgbd_camera/depth/points"            if="$(eval arg('robot_type') == 'turtlebot')"/>
-  <arg name="obstacle_front_rgbd_camera_frame"  value="/front_rgbd_camera_depth_optical_frame"     if="$(eval arg('robot_type') == 'turtlebot')"/>
+  <arg name="obstacle_front_rgbd_camera_z"       value="0.8808" />
+  <arg name="obstacle_front_rgbd_camera_topic"   value="/front_rgbd_camera/depth/points" />
+  <arg name="obstacle_front_rgbd_camera_frame"   value="/front_rgbd_camera_depth_optical_frame" />
 
-  <include file="$(find cultureid_yocs_velocity_smoother)/launch/velocity_smoother.launch"         if="$(eval robot_type == 'turtlebot')"/>
-  <!--include file="$(find cultureid_turtlebot_navigation)/launch/includes/velocity_smoother.launch.xml" if="$(eval robot_type == 'turtlebot')"/-->
-  <include file="$(find cultureid_turtlebot_navigation)/launch/includes/safety_controller.launch.xml" if="$(eval robot_type == 'turtlebot')"/>
+  <!-- Velocity smoother -->
+  <include file="$(find cultureid_yocs_velocity_smoother)/launch/velocity_smoother.launch" />
+  <include file="$(find cultureid_turtlebot_navigation)/launch/includes/safety_controller.launch.xml" />
 
   <!-- move_base specific params for turtlebot -->
-  <arg name="move_base_controller_frequency"     value="15.0"                                      if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="move_base_controller_patience"      value="110.1"                                     if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="move_base_planner_frequency"        value="11.0"                                      if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="move_base_planner_patience"         value="10.1"                                      if="$(eval robot_type == 'turtlebot')"/>
-  <arg name="move_base_oscillation_timeout"      value="15.0"                                      if="$(eval robot_type == 'turtlebot')"/>
+  <arg name="move_base_controller_frequency"     value="15.0" />
+  <arg name="move_base_controller_patience"      value="110.1" />
+  <arg name="move_base_planner_frequency"        value="11.0" />
+  <arg name="move_base_planner_patience"         value="10.1" />
+  <arg name="move_base_oscillation_timeout"      value="15.0" />
 
   <!-- teb local planner specific params for turtlebot -->
-  <arg name="teb_dt_hysteresis"                  value="0.00"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
-  <arg name="teb_max_vel_theta"                  value="1.50"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
-  <arg name="teb_acc_lim_x"                      value="2.50"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
-  <arg name="teb_acc_lim_theta"                  value="2.50"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
-  <arg name="teb_inflation_dist"                 value="0.01"                                     if="$(eval arg('robot_type') == 'turtlebot' and arg('lp') == 'teb')"/>
-
-
-
-
-  <!-- ##################################################################### -->
-  <!-- rb1 specific -->
-  <!-- ##################################################################### -->
-  <arg name="robot_radius"                    value="0.25"                                        if="$(eval robot_type == 'rb1')"/>
-  <arg name="robot_height"                    value="2.00"                                        if="$(eval robot_type == 'rb1')"/>
-  <arg name="odom_topic"                      value="robotnik_base_control/odom"                  if="$(eval robot_type == 'rb1')"/>
-  <arg name="scan_topic"                      value="front_laser/scan"                            if="$(eval robot_type == 'rb1')"/>
-  <arg name="laser_frame"                     value="front_laser_link"                            if="$(eval robot_type == 'rb1')"/>
-  <arg name="laser_range"                     value="30.0"                                        if="$(eval robot_type == 'rb1')"/>
-  <arg name="cmd_vel_topic"                   value="move_base/cmd_vel"                           if="$(eval robot_type == 'rb1')"/>
-
-  <!-- local costmap specific params for rb1 -->
-  <arg name="local_costmap_update_frequency"  value="10.0"                                        if="$(eval robot_type == 'rb1')"/>
-  <arg name="local_costmap_update_frequency"  value="5.0"                                         if="$(eval robot_type == 'rb1')"/>
-  <arg name="local_costmap_publish_frequency" value="5.0"                                         if="$(eval robot_type == 'rb1')"/>
-
-  <!-- front_rgbd_camera_depth_optical_frame->base_link->base_footprint -->
-  <arg name="obstacle_front_rgbd_camera_z"      value="0.132"                                     if="$(eval robot_type == 'rb1')"/>
-  <arg name="obstacle_front_rgbd_camera_topic"  value="front_rgbd_camera/depth/points"            if="$(eval robot_type == 'rb1')"/>
-  <arg name="obstacle_front_rgbd_camera_frame"  value="front_rgbd_camera_depth_optical_frame"     if="$(eval robot_type == 'rb1')"/>
-
-  <!-- move_base specific params for rb1 -->
-  <arg name="move_base_controller_frequency"     value="10.0"                                     if="$(eval robot_type == 'rb1')"/>
-  <arg name="move_base_controller_patience"      value="3.0"                                      if="$(eval robot_type == 'rb1')"/>
-  <arg name="move_base_planner_frequency"        value="10.0"                                     if="$(eval robot_type == 'rb1')"/>
-  <arg name="move_base_planner_patience"         value="5.0"                                      if="$(eval robot_type == 'rb1')"/>
-  <arg name="move_base_oscillation_timeout"      value="10.0"                                     if="$(eval robot_type == 'rb1')"/>
-
-  <!-- teb local planner specific params for rb1 -->
-  <arg name="teb_dt_hysteresis"                  value="0.10"                                     if="$(eval arg('robot_type') == 'rb1' and arg('lp') == 'teb')"/>
-  <arg name="teb_max_vel_theta"                  value="0.80"                                     if="$(eval arg('robot_type') == 'rb1' and arg('lp') == 'teb')"/>
-  <arg name="teb_acc_lim_x"                      value="0.50"                                     if="$(eval arg('robot_type') == 'rb1' and arg('lp') == 'teb')"/>
-  <arg name="teb_acc_lim_theta"                  value="0.50"                                     if="$(eval arg('robot_type') == 'rb1' and arg('lp') == 'teb')"/>
-  <arg name="teb_inflation_dist"                 value="0.50"                                     if="$(eval arg('robot_type') == 'rb1' and arg('lp') == 'teb')"/>
-
+  <arg name="teb_dt_hysteresis"                  value="0.00"  if="$(arg('lp') == 'teb')"/>
+  <arg name="teb_max_vel_theta"                  value="1.50"  if="$(arg('lp') == 'teb')"/>
+  <arg name="teb_acc_lim_x"                      value="2.50"  if="$(arg('lp') == 'teb')"/>
+  <arg name="teb_acc_lim_theta"                  value="2.50"  if="$(arg('lp') == 'teb')"/>
+  <arg name="teb_inflation_dist"                 value="0.01"  if="$(arg('lp') == 'teb')"/>
 
 
 
@@ -95,13 +55,13 @@
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
 
     <!-- Costmap params: common, global, and local -->
-    <rosparam file="$(find cultureid_devel)/configuration_files/common/costmap_params/costmap_common_params.yaml"                                             command="load" ns="global_costmap" />
-    <rosparam file="$(find cultureid_devel)/configuration_files/common/costmap_params/costmap_common_params.yaml"                                             command="load" ns="local_costmap" />
-    <rosparam file="$(find cultureid_devel)/configuration_files/common/costmap_params/global_costmap_params.yaml"                                             command="load" />
-    <rosparam file="$(find cultureid_devel)/configuration_files/common/costmap_params/local_costmap_params.yaml"                                              command="load" />
+    <rosparam file="$(find cultureid_devel)/configuration_files/common/costmap_params/costmap_common_params.yaml"                                          command="load" ns="global_costmap" />
+    <rosparam file="$(find cultureid_devel)/configuration_files/common/costmap_params/costmap_common_params.yaml"                                          command="load" ns="local_costmap" />
+    <rosparam file="$(find cultureid_devel)/configuration_files/common/costmap_params/global_costmap_params.yaml"                                          command="load" />
+    <rosparam file="$(find cultureid_devel)/configuration_files/common/costmap_params/local_costmap_params.yaml"                                           command="load" />
 
     <!-- move_base params: common -->
-    <rosparam file="$(find cultureid_devel)/configuration_files/common/move_base_params.yaml"                                                                 command="load" />
+    <rosparam file="$(find cultureid_devel)/configuration_files/common/move_base_params.yaml"                                                              command="load" />
     <param name="controller_frequency"                  value="$(arg move_base_controller_frequency)" />
     <param name="controller_patience"                   value="$(arg move_base_controller_patience)" />
     <param name="planner_frequency"                     value="$(arg move_base_planner_frequency)" />
@@ -109,10 +69,10 @@
     <param name="oscillation_timeout"                   value="$(arg move_base_oscillation_timeout)" />
 
     <!-- move_base params: task-related -->
-    <rosparam file="$(find cultureid_devel)/configuration_files/$(arg task)/$(arg task)_move_base_params/$(arg task)_global_costmap_params.yaml"              command="load" />
+    <rosparam file="$(find cultureid_devel)/configuration_files/$(arg task)/$(arg task)_move_base_params/$(arg task)_global_costmap_params.yaml"           command="load" />
 
     <!-- global planner params -->
-    <rosparam file="$(find cultureid_devel)/configuration_files/common/global_planners_params/$(arg gp)_global_planner_params.yaml"                           command="load" />
+    <rosparam file="$(find cultureid_devel)/configuration_files/common/global_planners_params/$(arg gp)_global_planner_params.yaml"                        command="load" />
 
     <param name="base_global_planner"                   value="global_planner/GlobalPlanner"                                                               if="$(eval gp == 'globalplanner')" />
     <param name="base_global_planner"                   value="navfn/NavfnROS"                                                                             if="$(eval gp == 'navfn')" />
@@ -120,14 +80,14 @@
     <param name="SBPLLatticePlanner/primitive_filename" value="$(find cultureid_devel)/configuration_files/kinematics/uni_$(arg resolution).mprim"         if="$(eval gp == 'sbpl')" />
 
     <!-- local planner params -->
-    <rosparam file="$(find cultureid_devel)/configuration_files/common/local_planners_params/$(arg lp)_local_planner_params.yaml"                             command="load" />
+    <rosparam file="$(find cultureid_devel)/configuration_files/common/local_planners_params/$(arg lp)_local_planner_params.yaml"                          command="load" />
 
     <param name="base_local_planner"                    value="dwa_local_planner/DWAPlannerROS"                                                            if="$(eval lp == 'dwa')" />
     <param name="base_local_planner"                    value="teb_local_planner/TebLocalPlannerROS"                                                       if="$(eval lp == 'teb')" />
     <param name="base_local_planner"                    value="eband_local_planner/EBandPlannerROS"                                                        if="$(eval lp == 'eband')" />
 
 
-    <!-- Modify params according to robot_type -->
+    <!-- Modify params -->
     <!-- Global costmap params -->
     <param name="global_costmap/resolution"                                                             value="$(arg resolution)"   />
     <param name="global_costmap/robot_radius"                                                           value="$(arg robot_radius)" />
@@ -139,17 +99,7 @@
     <param name="global_costmap/obstacle_layer/max_obstacle_height"                                     value="$(arg robot_height)"  />
     <param name="global_costmap/inflation_layer/inflation_radius"                                       value="$(arg robot_radius)" />
 
-    <!--
-    <param name="global_costmap/front_vertical_obstacle_layer/max_obstacle_height"                      value="$(arg robot_height)" />
-    <param name="global_costmap/front_vertical_obstacle_layer/front_rgbd_camera/sensor_frame"           value="$(arg obstacle_front_rgbd_camera_frame)" />
-    <param name="global_costmap/front_vertical_obstacle_layer/front_rgbd_camera/topic"                  value="$(arg obstacle_front_rgbd_camera_topic)" />
-    <param name="global_costmap/front_vertical_obstacle_layer/origin_z"                                 value="$(arg obstacle_front_rgbd_camera_z)" />
-    <param name="global_costmap/front_vertical_obstacle_layer/front_rgbd_camera/min_obstacle_height"    value="$(arg obstacle_front_rgbd_camera_z)" />
-    <param name="global_costmap/front_vertical_obstacle_layer/front_rgbd_camera/max_obstacle_height"    value="$(arg robot_height)" />
-    -->
-
     <param name="global_costmap/front_rgbd_obstacle_layer/origin_z"                                     value="$(arg obstacle_front_rgbd_camera_z)" />
-    <!--param name="global_costmap/front_rgbd_obstacle_layer/origin_z"                                     value="0.0" /-->
     <param name="global_costmap/front_rgbd_obstacle_layer/front_rgbd_mark/topic"                        value="$(arg obstacle_front_rgbd_camera_topic)" />
     <param name="global_costmap/front_rgbd_obstacle_layer/front_rgbd_mark/sensor_frame"                 value="$(arg obstacle_front_rgbd_camera_frame)" />
     <param name="global_costmap/front_rgbd_obstacle_layer/front_rgbd_clear/topic"                       value="$(arg obstacle_front_rgbd_camera_topic)" />
@@ -167,17 +117,8 @@
     <param name="local_costmap/obstacle_layer/raytrace_range"                                           value="$(arg laser_range)"  />
     <param name="local_costmap/inflation_layer/inflation_radius"                                        value="$(arg robot_radius)" />
 
-    <!--
-    <param name="local_costmap/front_vertical_obstacle_layer/max_obstacle_height"                       value="$(arg robot_height)" />
-    <param name="local_costmap/front_vertical_obstacle_layer/front_rgbd_camera/sensor_frame"            value="$(arg obstacle_front_rgbd_camera_frame)" />
-    <param name="local_costmap/front_vertical_obstacle_layer/front_rgbd_camera/topic"                   value="$(arg obstacle_front_rgbd_camera_topic)" />
-    <param name="local_costmap/front_vertical_obstacle_layer/origin_z"                                  value="$(arg obstacle_front_rgbd_camera_z)" />
-    <param name="local_costmap/front_vertical_obstacle_layer/front_rgbd_camera/min_obstacle_height"     value="$(arg obstacle_front_rgbd_camera_z)" />
-    <param name="local_costmap/front_vertical_obstacle_layer/front_rgbd_camera/max_obstacle_height"     value="$(arg robot_height)" />
-    -->
 
     <param name="local_costmap/front_rgbd_obstacle_layer/origin_z"                                      value="$(arg obstacle_front_rgbd_camera_z)" />
-    <!--param name="local_costmap/front_rgbd_obstacle_layer/origin_z"                                      value="0.0" /-->
     <param name="local_costmap/front_rgbd_obstacle_layer/front_rgbd_mark/topic"                         value="$(arg obstacle_front_rgbd_camera_topic)" />
     <param name="local_costmap/front_rgbd_obstacle_layer/front_rgbd_mark/sensor_frame"                  value="$(arg obstacle_front_rgbd_camera_frame)" />
     <param name="local_costmap/front_rgbd_obstacle_layer/front_rgbd_clear/topic"                        value="$(arg obstacle_front_rgbd_camera_topic)" />
@@ -199,7 +140,7 @@
     <param name="TebLocalPlannerROS/inflation_dist"                                                     value="$(arg teb_inflation_dist)"/>
 
 
-    <!-- Remap move_base input/output topics depeding to robot_type -->
+    <!-- Remap move_base input/output topics -->
     <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
     <remap from="odom"    to="$(arg odom_topic)"/>
     <remap from="scan"    to="$(arg scan_topic)"/>

@@ -219,7 +219,6 @@
   <!-- ********************************************************************* -->
   <!-- Load navigation (move_base, global and local planner)-->
   <include file="$(find cultureid_devel)/launch/navigation/navigation.launch" >
-    <arg name="robot_type"            value="$(arg robot_type)"/>
     <arg name="num_cameras"           value="$(arg num_cameras)" />
     <arg name="gp"                    value="$(arg gp)"/>
     <arg name="lp"                    value="$(arg lp)"/>
