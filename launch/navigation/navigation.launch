@@ -39,11 +39,11 @@
   <arg name="move_base_oscillation_timeout"      value="15.0" />
 
   <!-- teb local planner specific params for turtlebot -->
-  <arg name="teb_dt_hysteresis"                  value="0.00"  if="$(arg('lp') == 'teb')"/>
-  <arg name="teb_max_vel_theta"                  value="1.50"  if="$(arg('lp') == 'teb')"/>
-  <arg name="teb_acc_lim_x"                      value="2.50"  if="$(arg('lp') == 'teb')"/>
-  <arg name="teb_acc_lim_theta"                  value="2.50"  if="$(arg('lp') == 'teb')"/>
-  <arg name="teb_inflation_dist"                 value="0.01"  if="$(arg('lp') == 'teb')"/>
+  <arg name="teb_dt_hysteresis"                  value="0.00"  if="$(eval arg('lp') == 'teb')"/>
+  <arg name="teb_max_vel_theta"                  value="1.50"  if="$(eval arg('lp') == 'teb')"/>
+  <arg name="teb_acc_lim_x"                      value="2.50"  if="$(eval arg('lp') == 'teb')"/>
+  <arg name="teb_acc_lim_theta"                  value="2.50"  if="$(eval arg('lp') == 'teb')"/>
+  <arg name="teb_inflation_dist"                 value="0.01"  if="$(eval arg('lp') == 'teb')"/>
 
 
 
