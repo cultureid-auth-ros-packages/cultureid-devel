@@ -40,7 +40,7 @@
 
   <!-- teb local planner specific params for turtlebot -->
   <arg name="teb_dt_hysteresis"                  value="0.00"  if="$(eval arg('lp') == 'teb')"/>
-  <arg name="teb_max_vel_theta"                  value="1.50"  if="$(eval arg('lp') == 'teb')"/>
+  <arg name="teb_max_vel_theta"                  value="0.50"  if="$(eval arg('lp') == 'teb')"/>
   <arg name="teb_acc_lim_x"                      value="2.50"  if="$(eval arg('lp') == 'teb')"/>
   <arg name="teb_acc_lim_theta"                  value="2.50"  if="$(eval arg('lp') == 'teb')"/>
   <arg name="teb_inflation_dist"                 value="0.01"  if="$(eval arg('lp') == 'teb')"/>
@@ -52,7 +52,7 @@
   <!-- ##################################################################### -->
   <!-- move base launcher -->
   <!-- ##################################################################### -->
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <node pkg="move_base" type="move_base" respawn="true" name="move_base" output="screen">
 
     <!-- Costmap params: common, global, and local -->
     <rosparam file="$(find cultureid_devel)/configuration_files/common/costmap_params/costmap_common_params.yaml"                                          command="load" ns="global_costmap" />
